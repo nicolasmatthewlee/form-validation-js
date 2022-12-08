@@ -1,6 +1,8 @@
 import './reset.css';
+import './styles.css';
 
 const root = document.querySelector(':root');
+const body = document.querySelector('body');
 
 // helper method
 const createElement = (type, className, content = '') => {
@@ -10,8 +12,28 @@ const createElement = (type, className, content = '') => {
   return element;
 };
 
+// set innerHeight and innerWidth
+const setHeight = () => {
+  root.style.setProperty('--innerHeight', window.innerHeight + 'px');
+};
+const setWidth = () => {
+  root.style.setProperty('--innerWidth', window.innerWidth + 'px');
+};
+window.addEventListener('resize', () => {
+  setHeight();
+  setWidth();
+});
+
 // form structure
 const form = createElement('form', 'form');
+
+const formTitle = createElement('div', 'form-title', 'Sign Up');
+
+const loginContainer = createElement('div', 'login-container');
+const loginText = createElement('div', 'login-text', 'Have an account?');
+const loginLink = createElement('a', 'login-link', 'Login');
+loginLink.href = '';
+loginContainer.append(loginText, loginLink);
 
 const emailContainer = createElement('div', 'container email-container');
 const emailLabel = createElement('div', 'email-label', 'Email Address');
@@ -45,15 +67,19 @@ const confirmPasswordLabel = createElement(
 const confirmPasswordInput = createElement('input', 'confirm-password-input');
 confirmPasswordContainer.append(confirmPasswordLabel, confirmPasswordInput);
 
+const submitButtonContainer = createElement('div', 'submit-button-container');
 const submitButton = createElement('button', 'submit-button', 'Submit');
+submitButtonContainer.append(submitButton);
 
 form.append(
+  formTitle,
+  loginContainer,
   emailContainer,
   countryContainer,
   zipCodeContainer,
   passwordContainer,
   confirmPasswordContainer,
-  submitButton
+  submitButtonContainer
 );
 
-root.append(form);
+body.append(form);
