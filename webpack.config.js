@@ -25,5 +25,10 @@ module.exports = {
         type: 'asset/resource'
       }
     ]
+  },
+  resolve: {
+    fallback: {
+      fs: false
+    }
   }
 };
