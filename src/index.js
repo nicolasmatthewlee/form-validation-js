@@ -394,6 +394,7 @@ const checkEmail = () => {
 emailInput.addEventListener('input', checkEmail);
 
 const checkCountry = () => {
+  console.log(countryInput.value);
   if (!(countryInput.value == 'Select a Country')) {
     countryErrorContainer.classList.remove('active');
   } else {
@@ -401,6 +402,7 @@ const checkCountry = () => {
     countryErrorContainer.classList.add('active');
   }
 };
+countryInput.addEventListener('change', checkCountry);
 
 zipCodeInput.setAttribute('pattern', '^[0-9]{5}(?:-[0-9]{4})?$');
 zipCodeInput.setAttribute('maxlength', '10');
