@@ -441,7 +441,12 @@ const checkPassword = () => {
     passwordErrorContainer.classList.add('active');
   }
 };
-passwordInput.addEventListener('input', checkPassword);
+passwordInput.addEventListener('input', () => {
+  checkPassword();
+  if (!(confirmPasswordInput.value == '')) {
+    checkConfirmPassword();
+  }
+});
 
 confirmPasswordInput.setAttribute('type', 'password');
 
