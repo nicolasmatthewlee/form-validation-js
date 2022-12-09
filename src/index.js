@@ -38,7 +38,10 @@ loginContainer.append(loginText, loginLink);
 const emailContainer = createElement('div', 'container email-container');
 const emailLabel = createElement('div', 'email-label', 'Email Address');
 const emailInput = createElement('input', 'email-input');
-emailContainer.append(emailLabel, emailInput);
+const emailErrorContainer = createElement('div', 'error-container');
+const emailErrorLabel = createElement('div', 'error-label', 'error');
+emailErrorContainer.append(emailErrorLabel);
+emailContainer.append(emailLabel, emailInput, emailErrorContainer);
 
 const countryContainer = createElement('div', 'container country-container');
 const countryLabel = createElement('div', 'country-label', 'Country');
@@ -305,12 +308,18 @@ countryContainer.append(countryLabel, countryInput);
 const zipCodeContainer = createElement('div', 'container zip-code-container');
 const zipCodeLabel = createElement('div', 'zip-code-label', 'Zip Code');
 const zipCodeInput = createElement('input', 'zip-code-input');
-zipCodeContainer.append(zipCodeLabel, zipCodeInput);
+const zipCodeErrorContainer = createElement('div', 'error-container');
+const zipCodeErrorLabel = createElement('div', 'error-label', 'error');
+zipCodeErrorContainer.append(zipCodeErrorLabel);
+zipCodeContainer.append(zipCodeLabel, zipCodeInput, zipCodeErrorContainer);
 
 const passwordContainer = createElement('div', 'container password-container');
 const passwordLabel = createElement('div', 'password-label', 'Password');
 const passwordInput = createElement('input', 'password-input');
-passwordContainer.append(passwordLabel, passwordInput);
+const passwordErrorContainer = createElement('div', 'error-container');
+const passwordErrorLabel = createElement('div', 'error-label', 'error');
+passwordErrorContainer.append(passwordErrorLabel);
+passwordContainer.append(passwordLabel, passwordInput, passwordErrorContainer);
 
 const confirmPasswordContainer = createElement(
   'div',
@@ -322,7 +331,14 @@ const confirmPasswordLabel = createElement(
   'Confirm Password'
 );
 const confirmPasswordInput = createElement('input', 'confirm-password-input');
-confirmPasswordContainer.append(confirmPasswordLabel, confirmPasswordInput);
+const confirmPasswordErrorContainer = createElement('div', 'error-container');
+const confirmPasswordErrorLabel = createElement('div', 'error-label', 'error');
+confirmPasswordErrorContainer.append(confirmPasswordErrorLabel);
+confirmPasswordContainer.append(
+  confirmPasswordLabel,
+  confirmPasswordInput,
+  confirmPasswordErrorContainer
+);
 
 const submitButtonContainer = createElement('div', 'submit-button-container');
 const submitButton = createElement('button', 'submit-button', 'Submit');
@@ -340,3 +356,37 @@ form.append(
 );
 
 body.append(form);
+
+// form validation
+
+emailInput.addEventListener('input', () => {
+  if (!(emailInput.value == '')) {
+    emailErrorContainer.classList.add('active');
+  } else {
+    emailErrorContainer.classList.remove('active');
+  }
+});
+
+zipCodeInput.addEventListener('input', () => {
+  if (!(zipCodeInput.value == '')) {
+    zipCodeErrorContainer.classList.add('active');
+  } else {
+    zipCodeErrorContainer.classList.remove('active');
+  }
+});
+
+passwordInput.addEventListener('input', () => {
+  if (!(passwordInput.value == '')) {
+    passwordErrorContainer.classList.add('active');
+  } else {
+    passwordErrorContainer.classList.remove('active');
+  }
+});
+
+confirmPasswordInput.addEventListener('input', () => {
+  if (!(confirmPasswordInput.value == '')) {
+    confirmPasswordErrorContainer.classList.add('active');
+  } else {
+    confirmPasswordErrorContainer.classList.remove('active');
+  }
+});
