@@ -375,7 +375,7 @@ emailInput.setAttribute('type', 'email');
 emailInput.setAttribute('maxlength', '254');
 emailInput.setAttribute('required', '');
 
-emailInput.addEventListener('input', () => {
+const checkEmail = () => {
   if (emailInput.validity.valid) {
     emailErrorContainer.classList.remove('active');
   } else {
@@ -388,13 +388,23 @@ emailInput.addEventListener('input', () => {
     }
     emailErrorContainer.classList.add('active');
   }
-});
+};
+emailInput.addEventListener('input', checkEmail);
+
+const checkCountry = () => {
+  if (!(countryInput.value == 'Select a Country')) {
+    countryErrorContainer.classList.remove('active');
+  } else {
+    countryErrorLabel.textContent = 'Country is required';
+    countryErrorContainer.classList.add('active');
+  }
+};
 
 zipCodeInput.setAttribute('pattern', '^[0-9]{5}(?:-[0-9]{4})?$');
 zipCodeInput.setAttribute('maxlength', '10');
 zipCodeInput.setAttribute('required', '');
 
-zipCodeInput.addEventListener('input', () => {
+const checkZipCode = () => {
   if (zipCodeInput.validity.valid) {
     zipCodeErrorContainer.classList.remove('active');
   } else {
@@ -405,14 +415,15 @@ zipCodeInput.addEventListener('input', () => {
     }
     zipCodeErrorContainer.classList.add('active');
   }
-});
+};
+zipCodeInput.addEventListener('input', checkZipCode);
 
 passwordInput.setAttribute('type', 'password');
 passwordInput.setAttribute('minlength', '12');
 passwordInput.setAttribute('maxlength', '100');
 passwordInput.setAttribute('required', '');
 
-passwordInput.addEventListener('input', () => {
+const checkPassword = () => {
   if (passwordInput.validity.valid) {
     passwordErrorContainer.classList.remove('active');
   } else {
@@ -425,15 +436,36 @@ passwordInput.addEventListener('input', () => {
     }
     passwordErrorContainer.classList.add('active');
   }
-});
+};
+passwordInput.addEventListener('input', checkPassword);
 
 confirmPasswordInput.setAttribute('type', 'password');
 
-confirmPasswordInput.addEventListener('input', () => {
+const checkConfirmPassword = () => {
   if (confirmPasswordInput.value == passwordInput.value) {
     confirmPasswordErrorContainer.classList.remove('active');
   } else {
     confirmPasswordErrorLabel.textContent = 'Passwords do not match';
     confirmPasswordErrorContainer.classList.add('active');
+  }
+};
+confirmPasswordInput.addEventListener('input', checkConfirmPassword);
+
+form.addEventListener('submit', (event) => {
+  if (
+    emailInput.validity.valid &&
+    countryInput.value != 'Select a Country' &&
+    zipCodeInput.validity.valid &&
+    passwordInput.validity.valid &&
+    confirmPasswordInput.validity.valid
+  ) {
+    return true;
+  } else {
+    event.preventDefault();
+    checkEmail();
+    checkCountry();
+    checkZipCode();
+    checkPassword();
+    checkConfirmPassword();
   }
 });
