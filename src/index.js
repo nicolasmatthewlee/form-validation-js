@@ -371,6 +371,8 @@ body.append(form);
 
 // form validation
 
+form.setAttribute('novalidate', '');
+
 emailInput.setAttribute('type', 'email');
 emailInput.setAttribute('maxlength', '254');
 emailInput.setAttribute('required', '');
@@ -442,10 +444,17 @@ passwordInput.addEventListener('input', checkPassword);
 confirmPasswordInput.setAttribute('type', 'password');
 
 const checkConfirmPassword = () => {
-  if (confirmPasswordInput.value == passwordInput.value) {
+  if (
+    confirmPasswordInput.value == passwordInput.value &&
+    confirmPasswordInput.value != ''
+  ) {
     confirmPasswordErrorContainer.classList.remove('active');
   } else {
-    confirmPasswordErrorLabel.textContent = 'Passwords do not match';
+    if (confirmPasswordInput.value == '') {
+      confirmPasswordErrorLabel.textContent = 'Confirm password is required';
+    } else {
+      confirmPasswordErrorLabel.textContent = 'Passwords do not match';
+    }
     confirmPasswordErrorContainer.classList.add('active');
   }
 };
