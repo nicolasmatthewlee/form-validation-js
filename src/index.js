@@ -48,7 +48,7 @@ const countryLabel = createElement('div', 'country-label', 'Country');
 const countryInput = createElement('select', 'country-input');
 const countryOptions = [
   ' Afghanistan ',
-  ' Ã…land Islands ',
+  ' Aland Islands ',
   ' Albania ',
   ' Algeria ',
   ' American Samoa ',
@@ -297,13 +297,25 @@ const countryOptions = [
   ' Zambia ',
   ' Zimbabwe '
 ];
+let defaultOption = createElement(
+  'option',
+  'select-option',
+  'Select a Country'
+);
+defaultOption.setAttribute('selected', '');
+defaultOption.setAttribute('disabled', '');
+defaultOption.setAttribute('hidden', '');
+countryInput.append(defaultOption);
+
 for (let country of countryOptions) {
   let selectOption = createElement('option', 'select-option', country);
   selectOption.value = country;
   countryInput.append(selectOption);
 }
-
-countryContainer.append(countryLabel, countryInput);
+const countryErrorContainer = createElement('div', 'error-container');
+const countryErrorLabel = createElement('div', 'error-label', 'error');
+countryErrorContainer.append(countryErrorLabel);
+countryContainer.append(countryLabel, countryInput, countryErrorContainer);
 
 const zipCodeContainer = createElement('div', 'container zip-code-container');
 const zipCodeLabel = createElement('div', 'zip-code-label', 'Zip Code');
@@ -359,34 +371,69 @@ body.append(form);
 
 // form validation
 
+emailInput.setAttribute('type', 'email');
+emailInput.setAttribute('maxlength', '254');
+emailInput.setAttribute('required', '');
+
 emailInput.addEventListener('input', () => {
-  if (!(emailInput.value == '')) {
-    emailErrorContainer.classList.add('active');
-  } else {
+  if (emailInput.validity.valid) {
     emailErrorContainer.classList.remove('active');
+  } else {
+    if (emailInput.validity.typeMismatch) {
+      emailErrorLabel.textContent = 'Please enter a valid email';
+    } else if (emailInput.validity.valueMissing) {
+      emailErrorLabel.textContent = 'Email is required';
+    } else if (emailInput.validity.tooLong) {
+      emailErrorLabel.textContent = 'Email exceeds maximum length';
+    }
+    emailErrorContainer.classList.add('active');
   }
 });
+
+zipCodeInput.setAttribute('pattern', '^[0-9]{5}(?:-[0-9]{4})?$');
+zipCodeInput.setAttribute('maxlength', '10');
+zipCodeInput.setAttribute('required', '');
 
 zipCodeInput.addEventListener('input', () => {
-  if (!(zipCodeInput.value == '')) {
-    zipCodeErrorContainer.classList.add('active');
-  } else {
+  if (zipCodeInput.validity.valid) {
     zipCodeErrorContainer.classList.remove('active');
+  } else {
+    if (zipCodeInput.validity.patternMismatch) {
+      zipCodeErrorLabel.textContent = 'Please enter a valid zip code';
+    } else if (zipCodeInput.validity.valueMissing) {
+      zipCodeErrorLabel.textContent = 'Zip code is required';
+    }
+    zipCodeErrorContainer.classList.add('active');
   }
 });
+
+passwordInput.setAttribute('type', 'password');
+passwordInput.setAttribute('minlength', '12');
+passwordInput.setAttribute('maxlength', '100');
+passwordInput.setAttribute('required', '');
 
 passwordInput.addEventListener('input', () => {
-  if (!(passwordInput.value == '')) {
-    passwordErrorContainer.classList.add('active');
-  } else {
+  if (passwordInput.validity.valid) {
     passwordErrorContainer.classList.remove('active');
+  } else {
+    if (passwordInput.validity.tooShort) {
+      passwordErrorLabel.textContent = 'Password is too short';
+    } else if (passwordInput.validity.tooLong) {
+      passwordErrorLabel.textContent = 'Password exceeds maximum length';
+    } else if (passwordInput.validity.valueMissing) {
+      passwordErrorLabel.textContent = 'Password is required';
+    }
+    passwordErrorContainer.classList.add('active');
   }
 });
 
+confirmPasswordInput.setAttribute('type', 'password');
+
 confirmPasswordInput.addEventListener('input', () => {
-  if (!(confirmPasswordInput.value == '')) {
-    confirmPasswordErrorContainer.classList.add('active');
-  } else {
+  if (confirmPasswordInput.value == passwordInput.value) {
     confirmPasswordErrorContainer.classList.remove('active');
+  } else {
+    confirmPasswordErrorLabel.textContent = 'Passwords do not match';
+    confirmPasswordErrorContainer.classList.add('active');
   }
 });
