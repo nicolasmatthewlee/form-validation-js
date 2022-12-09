@@ -42,6 +42,8 @@ form>.container>input {
     height: 30px;
     border-radius: 5px;
     text-indent: 5px;
+
+    font-weight: 500;
 }
 
 form>.container>input:focus {
